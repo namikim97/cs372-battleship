@@ -8,3 +8,7 @@
 - ranked the user-stories in order of importance
 - discussed how much time each user story will take to accomplish and its difficulty level
 - discussed the expected time and difficulty level for the user-stories
+- created a discord channel for the project
+
+2/9/19
+- setup a simple CMake project for SFML
