@@ -1,0 +1,10 @@
+372 Project Diary
+
+2/8/19 (in-class)
+- decided the most important feature —> 2 player or AI
+- came up with desirable features and ranked the top three features
+- worked on user-stories and came up with things a player should be able to do
+- came up with seven different user-stories
+- ranked the user-stories in order of importance
+- discussed how much time each user story will take to accomplish and its difficulty level
+- discussed the expected time and difficulty level for the user-stories
