@@ -12,3 +12,4 @@
 
 2/9/19
 - setup a simple CMake project for SFML
+- created Discord/GitHub webhook
