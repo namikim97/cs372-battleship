@@ -12,7 +12,6 @@
 
 2/9/19
 - setup a simple CMake project for SFML
-<<<<<<< HEAD
 
 2/10/19 
 - created and debugged a board class
@@ -22,6 +21,3 @@
 - CJ: I pair programmed with Nami for 2 hours. We accomplished roughly half of a 4 DP project (Allow a player to initiate a game). Specifically, we created a simple interface for board class and then tested it in main.cpp. We specifically tested that we could place ships and hit or miss ships. It appears that we accomplished 1 hour of work for every difficulty point. We probably could have done some test driven development but we mostly focused on making code which compiled.  I might devote some later effort into making some test cases for the functions in the board class or for the entire class. However, I feel the code we made (whose primary goal was to compile) was successful.
 Pair programming was a new experience for me. It felt a lot like tutoring,  Nami and I have inconsistent coding style (for example, comments are common in her code but not so much in mine).  This inconsistency led me to constantly critique and advise (perhaps annoyingly) on all sorts of things. Despite this, I felt like we were on task the entire time.  I think it would be useful to have a standard for code. That said, I don't care enough and I feel it would take too long to develop and adhere to. While coding was slower than if I had done it by myself, I was able to spend more time thinking about the end goal.
 I look forward to working with Nami again.
-=======
-- created Discord/GitHub webhook
->>>>>>> 940187010db729467df079eaa599f62e941ad6e3
