@@ -7,9 +7,12 @@
 // Copied from the SFML tutorial for Drawing 2-D Stuff.
 
 #include <SFML/Graphics.hpp>
+#include "board.hpp"
+
 
 int main()
 {
+
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Battleship");
 
 	while (window.isOpen())

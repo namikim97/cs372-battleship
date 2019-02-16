@@ -33,6 +33,7 @@
 
 # Project Specific
 build/
+catch.hpp
 
 # MacOS
 .DS_Store
