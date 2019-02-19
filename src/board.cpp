@@ -1,12 +1,11 @@
 // board.cpp
 //
 // 9 Feb 2019
-// 9 Feb 2019
+// 18 Feb 2019
 //
 // source for the board class
 
-#include <../include/board.hpp> //the directory above me, 
-//include is the directory we are going into, and board.hpp is the file 
+#include "board.hpp"
 
 // *****************************************************
 // *** HELPER FUNCTIONS ***

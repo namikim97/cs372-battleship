@@ -101,17 +101,43 @@ std::vector<std::pair<int, int>> getPositionsBetween(
 // *****************************************************
 
 
-void testAndPlaceShip_DOWN(Board & board, int pos_x, int pos_y, int length)
+void test_andPlaceShip_DOWN(Board & board, int pos_x, int pos_y, int length)
 {
 	INFO( "Place a length " << length << " ship DOWN at (" << pos_x << ", " << pos_y << ") is successful" );
 	REQUIRE( placeShip_DOWN(board, pos_x, pos_y, length) );
 }
 
-void testAndPlaceShip_RIGHT(Board & board, int pos_x, int pos_y, int length)
+void test_andPlaceShip_RIGHT(Board & board, int pos_x, int pos_y, int length)
 {
 	INFO( "Place a length " << length << " ship RIGHT at (" << pos_x << ", " << pos_y << ") is successful" );
 	REQUIRE( placeShip_RIGHT(board, pos_x, pos_y, length) );
 }
+
+void test_placeShip_Fails_DOWN(Board & board, int pos_x, int pos_y, int length)
+{
+	INFO( "Place a length " << length << " ship DOWN at (" << pos_x << ", " << pos_y << ") is NOT successful" );
+	REQUIRE_FALSE( placeShip_DOWN(board, pos_x, pos_y, length) );
+}
+
+void test_placeShip_Fails_RIGHT(Board & board, int pos_x, int pos_y, int length)
+{
+	INFO( "Place a length " << length << " ship RIGHT at (" << pos_x << ", " << pos_y << ") is NOT successful" );
+	REQUIRE_FALSE( placeShip_RIGHT(board, pos_x, pos_y, length) );
+}
+
+void test_andShoot(Board & board, int pos_x, int pos_y)
+{
+	INFO( "Check shot at (" << pos_x << ", " << pos_y << ") is successful" );
+	REQUIRE( shoot(board, pos_x, pos_y) );
+}
+
+
+void test_shoot_Fails(Board & board, int pos_x, int pos_y)
+{
+	INFO( "Check shot at (" << pos_x << ", " << pos_y << ") is NOT successful" );
+	REQUIRE_FALSE( shoot(board, pos_x, pos_y) );
+}
+
 
 void test_numEMPTY_equals(const Board & board, int num)
 {
@@ -193,9 +219,9 @@ TEST_CASE( "Board class - Ship Placements", "[Board][PlaceShips]" )
 		test_numHIT_equals(board, 0);
 	}
 
-	SECTION( "Place a length 3 ship: (0,0)/DOWN/3)" )
+	SECTION( "Place a length 3 ship: (0,0)/DOWN/3" )
 	{
-		testAndPlaceShip_DOWN(board, 0, 0, 3);
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
 		test_numEMPTY_equals(board, 97);
 		test_numSHIP_equals(board, 3);
 		test_numMISS_equals(board, 0);
@@ -203,9 +229,9 @@ TEST_CASE( "Board class - Ship Placements", "[Board][PlaceShips]" )
 		test_positionsBetweenAre_SHIP(board, {0,0}, {0,2});
 	}
 
-	SECTION( "Place a length 5 ship: (5,5)/DOWN/5)" )
+	SECTION( "Place a length 5 ship: (5,5)/DOWN/5" )
 	{
-		testAndPlaceShip_DOWN(board, 5, 5, 5);
+		test_andPlaceShip_DOWN(board, 5, 5, 5);
 		test_numEMPTY_equals(board, 95);
 		test_numSHIP_equals(board, 5);
 		test_numMISS_equals(board, 0);
@@ -213,9 +239,9 @@ TEST_CASE( "Board class - Ship Placements", "[Board][PlaceShips]" )
 		test_positionsBetweenAre_SHIP(board, {5,5}, {5,9});
 	}
 
-	SECTION( "Place a length 3 ship: (0,0)/RIGHT/3)" )
+	SECTION( "Place a length 3 ship: (0,0)/RIGHT/3" )
 	{
-		testAndPlaceShip_RIGHT(board, 0, 0, 3);
+		test_andPlaceShip_RIGHT(board, 0, 0, 3);
 		test_numEMPTY_equals(board, 97);
 		test_numSHIP_equals(board, 3);
 		test_numMISS_equals(board, 0);
@@ -223,14 +249,173 @@ TEST_CASE( "Board class - Ship Placements", "[Board][PlaceShips]" )
 		test_positionsBetweenAre_SHIP(board, {0,0}, {2,0});
 	}
 
-	SECTION( "Place a length 5 ship: (5,5)/DOWN/5)" )
+	SECTION( "Place a length 5 ship: (5,5)/DOWN/5" )
 	{
-		testAndPlaceShip_RIGHT(board, 5, 5, 5);
+		test_andPlaceShip_RIGHT(board, 5, 5, 5);
 		test_numEMPTY_equals(board, 95);
 		test_numSHIP_equals(board, 5);
 		test_numMISS_equals(board, 0);
 		test_numHIT_equals(board, 0);
 		test_positionsBetweenAre_SHIP(board, {5,5}, {9,5});
 	}
+
+	SECTION( "Cannot place a ship on a ship: (0,0)/DOWN/3, (0,0)/RIGHT/3" )
+	{
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
+		test_placeShip_Fails_RIGHT(board, 0, 0, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {0,0}, {0,2});
+	}
+
+	SECTION( "Cannot place a ship on a ship: (0,0)/DOWN/3, (0,1)/RIGHT/3" )
+	{
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
+		test_placeShip_Fails_RIGHT(board, 0, 1, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {0,0}, {0,2});
+	}
+
+	SECTION( "Cannot place a ship on a ship: (0,0)/DOWN/3, (0,0)/DOWN/3" )
+	{
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
+		test_placeShip_Fails_DOWN(board, 0, 0, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {0,0}, {0,2});
+	}
+
+	SECTION( "Cannot place a ship on a ship: (0,0)/DOWN/3, (0,1)/DOWN/3" )
+	{
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
+		test_placeShip_Fails_DOWN(board, 0, 1, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {0,0}, {0,2});
+	}
+
+	SECTION( "Cannot place a ship on a ship: (4,4)/DOWN/3, (3,5)/RIGHT/3" )
+	{
+		test_andPlaceShip_DOWN(board, 4, 4, 3);
+		test_placeShip_Fails_RIGHT(board, 3, 5, 3);
+		test_placeShip_Fails_DOWN(board, 4, 4, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {4,4}, {4,6});
+	}
+
+	SECTION( "Cannot place a ship on a ship: (4,4)/RIGHT/3, (5,3)/DOWN/3" )
+	{
+		test_andPlaceShip_RIGHT(board, 4, 4, 3);
+		test_placeShip_Fails_DOWN(board, 5, 3, 3);
+		test_placeShip_Fails_RIGHT(board, 4, 4, 3);
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 3);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+		test_positionsBetweenAre_SHIP(board, {4,4}, {6,4});
+	}
+
+	SECTION( "Cannot place ships outside" )
+	{
+		test_placeShip_Fails_RIGHT(board, 10, 12, 3);
+		test_placeShip_Fails_RIGHT(board, 8, 9, 3);
+		test_placeShip_Fails_RIGHT(board, 100000, 0, 3);
+		test_placeShip_Fails_RIGHT(board, -1, 0, 3);
+		test_placeShip_Fails_RIGHT(board, 0, -1, 3);
+		test_placeShip_Fails_RIGHT(board, 9, 17, 3);
+		test_placeShip_Fails_RIGHT(board, 12, 20, 3);
+		test_placeShip_Fails_DOWN(board, 10, 12, 3);
+		test_placeShip_Fails_DOWN(board, 9, 8, 3);
+		test_placeShip_Fails_DOWN(board, 100000, 0, 3);
+		test_placeShip_Fails_DOWN(board, -1, 0, 3);
+		test_placeShip_Fails_DOWN(board, 0, -1, 3);
+		test_placeShip_Fails_DOWN(board, 9, 17, 3);
+		test_placeShip_Fails_DOWN(board, 12, 20, 3);
+
+		test_numEMPTY_equals(board, 100);
+		test_numSHIP_equals(board, 0);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 0);
+	}
+
 }
 
+
+TEST_CASE( "Board class - Shooting", "[Board][Shoot]" )
+{
+	Board board;
+	SECTION( "Shoot an Empty Board" )
+	{
+		test_andShoot(board, 1, 1);
+		test_shoot_Fails(board, 1, 1);
+
+		test_numEMPTY_equals(board, 99);
+		test_numSHIP_equals(board, 0);
+		test_numMISS_equals(board, 1);
+		test_numHIT_equals(board, 0);
+
+		test_positionsBetweenAre_MISS(board, {1, 1}, {1,1});
+	}
+
+	SECTION( "Cannot shoot outside board" )
+	{
+		test_shoot_Fails(board, 10, 12);
+		test_shoot_Fails(board, 100000, 0);
+		test_shoot_Fails(board, -1, 0);
+		test_shoot_Fails(board, 0, -1);
+		test_shoot_Fails(board, 9, 17);
+		test_shoot_Fails(board, 12, 20);
+		test_shoot_Fails(board, 10, 12);
+		test_shoot_Fails(board, 100000, 0);
+		test_shoot_Fails(board, -1, 0);
+		test_shoot_Fails(board, 0, -1);
+		test_shoot_Fails(board, 9, 17);
+		test_shoot_Fails(board, 12, 20);
+	}
+
+	SECTION( "Shoot a ship" )
+	{
+		test_andPlaceShip_DOWN(board, 0, 0, 3);
+		test_andShoot(board, 0, 0);
+
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 2);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 1);
+
+		test_shoot_Fails(board, 0, 0);
+
+		test_positionsBetweenAre_SHIP(board, {0, 1}, {0,2});
+
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 2);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 1);
+
+		test_andShoot(board, 0, 1);
+
+		test_numEMPTY_equals(board, 97);
+		test_numSHIP_equals(board, 1);
+		test_numMISS_equals(board, 0);
+		test_numHIT_equals(board, 2);
+
+		test_andShoot(board, 1, 1);
+
+		test_numEMPTY_equals(board, 96);
+		test_numSHIP_equals(board, 1);
+		test_numMISS_equals(board, 1);
+		test_numHIT_equals(board, 2);
+	}
+}
