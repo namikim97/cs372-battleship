@@ -28,3 +28,13 @@ I look forward to working with Nami again.
 
 - CJ: Nami and I pair programmed for 2 hours. The session went smoothly like the last time. We refactored the Board class to make it more clear and explicit.  We added a testing framework to build alongside a release version using CMake.  While these additions are nice and clean,  we did not anticipate testing in our development time. These are 2 unaccounted hours in our prediction of 14 Difficulty Points (each approximately an hour). We've pushed the working build/test code so that either of us can create and/or modify Test Cases. The Discord/GitHub Webhook we have will notify the other upon pushing and this should help limit unexpected merge conflicts.
 *** Something of note is Nami is adhering to my commenting strategies and this has improved her work. Pair programming has yielded some unexpected insight for both of us watching the other code.
+
+2/18/19
+
+- Nami: CJ and I pair programmed for 2.5 hours. We finished writing the test cases and verified that our board class works properly. We also started writing a text based battleship game. Working with CJ was very nice and I look forward to working with him again later this week.
+
+- CJ: Pair programmed with Nami for 2 or so hours. We completed test cases for the Board class and created a working version of a 2 player (on the command line) text-based battleships.
+
+2/19/19
+
+- CJ: I polished the text-based battleships. It prevents a player from entering multiple positions and consequently taking their own and their enemy's turn.  It may not be pretty but the solution doesn't crash upon reading bad input. It is really hard to tell yourself to stop working on something when it works.
