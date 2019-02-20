@@ -2,7 +2,7 @@
 # Author: Charles Emerson
 #
 # Created: 8 Feb 2019
-# Updated: 10 Feb 2019
+# Updated: 18 Feb 2019
 # 
 # Created from the CMake configuration for SFML at:
 # https://github.com/SFML/SFML/wiki/Tutorial%3A-Build-your-SFML-project-with-CMake
@@ -27,6 +27,7 @@ set(SOURCE_MAIN
 
 set(SOURCE_FILES
   src/board.cpp
+  src/textBasedGame.cpp
 )
 
 # Define sources and executable
