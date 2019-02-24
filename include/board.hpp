@@ -1,17 +1,34 @@
 // board.hpp
 //
 // Created: 9 Feb 2019
-// Updated: 9 Feb 2019
+// Updated: 22 Feb 2019
 //
-// a board class 
+// Source for class Board.
 
 #ifndef FILE_BOARD_HPP_INCLUDED
 #define FILE_BOARD_HPP_INCLUDED
 
+#include <SFML/Network.hpp>
+// For sf::Packet
+
+#include <SFML/System.hpp>
+// For sf::Vector2i
+
 #include <vector>
+// For std::vector
+
+
+// ********************************************************************
+// BOARD CLASS
+// ********************************************************************
 
 class Board {
 public:
+	// *** PUBLIC POSITION TYPE ***
+	using pos_t = sf::Vector2i;
+
+public:
+	// *** BOARD SHIP DIRECTION AND LOCATION STATE ENUMS ***
 	enum DIR{
 		DOWN = 0,
 		RIGHT = 1
@@ -24,27 +41,51 @@ public:
 		HIT = 3
 	};
 
-	// default ctor and dtor
-	Board(); 
+public:
+	// *** CONSTRUCTORS AND DESTRUCTOR ***
+	Board();
+	Board(sf::Packet & packet);
 	~Board() = default;
 
-	// delete the rest of the big5
-	Board(const Board & board) = delete; //copy ctor
-	Board(Board && board) = delete; //mov dtor
-	Board & operator=(const Board & board) = delete; //copy ass
-	Board & operator=(Board && board) = delete; //mov ass
+	// *** NO COPY AND MOVE CONSTRUCTION AND ASSIGNMENT ***
+	// A board cannot be copied nor moved (only passed by reference) 
+	Board(const Board & board) = delete;
+	Board(Board && board) = delete;
+	Board & operator=(const Board & board) = delete;
+	Board & operator=(Board && board) = delete;
 
-	// public member function
-	bool placeShip(int pos_x, int pos_y, int length, Board::DIR direction);
-	int shootLocation(int pos_x, int pos_y);
-	Board::STATE getStatus(int pos_x, int pos_y) const; //get state of the location 
-	bool checkWin() const;
+
+public:
+	// *** QUERY MEMBER FUNCTIONS ***
+	Board::STATE get(pos_t position) const;
+	bool areAllShipsDead() const;
+
+	// *** MODIFIER MEMBER FUNCTIONS ***
+	bool placeShip(pos_t position, int length, Board::DIR direction);
+	bool shoot(pos_t position);
+
 
 private:
-	std::vector<Board::STATE> _board;
+	// *** PRIVATE HELPER FUNCTION ***
+	void set(pos_t position, Board::STATE state);
 
-	void setPosition(int pos_x, int pos_y, Board::STATE state);
+
+private:
+	// *** MEMBER VARIABLE ***
+	std::vector<Board::STATE> _board;
 };
 
+
+// ********************************************************************
+// PUBLIC HELPER FUNCTIONS
+// ********************************************************************
+
+bool positionIsValid(Board::pos_t position);
+
+sf::Packet & operator<<(sf::Packet & packet, const Board & board);
+
+sf::Packet & operator<<(sf::Packet & packet, const Board::pos_t & position);
+
+sf::Packet & operator>>(sf::Packet & packet, Board::pos_t & position);
 
 #endif // #ifndef FILE_BOARD_HPP_INCLUDED
