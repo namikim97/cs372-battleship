@@ -38,3 +38,11 @@ I look forward to working with Nami again.
 2/19/19
 
 - CJ: I polished the text-based battleships. It prevents a player from entering multiple positions and consequently taking their own and their enemy's turn.  It may not be pretty but the solution doesn't crash upon reading bad input. It is really hard to tell yourself to stop working on something when it works.
+
+3/22/19
+
+- CJ: Nami and I tried to pair program for two and a half hours to implement some local networking. It was not very successful because we did not have a clear and consistent goal. I later worked on implementing networking by myself for several hours. In the process I touched a lot of files. During this time, I completed ~90% of a working game with some simple networking.
+
+3/23/19
+
+- CJ: I spent an hour or so to clean up all of my changes and pushed them to GitHub. There was a lot. I feel bad about excluding Nami because she could have learned about networking. As of now, we have a functioning game. There are two command-line versions: one can be played locally in one console window which Nami and I made together and another which can be played across a local network. With this, we have completed and exceeded 5 out of 7 planned user stories.
