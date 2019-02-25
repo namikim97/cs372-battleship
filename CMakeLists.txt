@@ -42,7 +42,7 @@ set(SOURCE_FILES
 	src/local_textGame.cpp
 	src/network_textGame.cpp
 	src/gfxBoard.cpp
-	src/local_gfxGame.cpp
+	src/localGame.cpp
 )
 
 # Define sources and executable

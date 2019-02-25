@@ -1,7 +1,7 @@
 // gfxBoard.hpp
 //
 // Created: 23 Feb 2019
-// Updated: 23 Feb 2019
+// Updated: 25 Feb 2019
 //
 // Header for class GfxBoard.
 
@@ -26,6 +26,7 @@
 
 class GfxBoard : public sf::Drawable
 {
+
 public:
 	// *** CONSTRUCTORS AND DESTRUCTOR ***
 	GfxBoard(const Board & board, sf::Vector2f position, sf::Vector2f size);
@@ -41,6 +42,8 @@ public:
 public:
 	// *** QUERY MEMBER FUNCTIONS ***
 	Board::pos_t getPositionOnBoard(sf::Vector2i mousePosition) const;
+	sf::Vector2f getDrawPosition(Board::pos_t position) const;
+	float getCircleRadius() const;
 
 public:
 	// *** MODIFIER MEMBER FUNCTIONS ***

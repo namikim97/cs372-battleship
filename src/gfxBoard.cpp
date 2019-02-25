@@ -1,7 +1,7 @@
 // gfxBoard.cpp
 //
 // Created: 23 Feb 2019
-// Updated: 23 Feb 2019
+// Updated: 25 Feb 2019
 //
 // Source for class GfxBoard.
 
@@ -14,7 +14,11 @@
 
 // *** CONSTRUCTORS AND DESTRUCTOR ***
 GfxBoard::GfxBoard(const Board & board, sf::Vector2f position, sf::Vector2f size)
-:_board(board), _lines(44), _position(position), _size(size), _showShips(true)
+:	_board(board),
+	_lines(44),
+	_position(position),
+	_size(size),
+	_showShips(true)
 {
 	auto x_offset = position.x, y_offset = position.y;
 	for (auto j = 0; j <= 10; ++j)
@@ -54,16 +58,29 @@ Board::pos_t GfxBoard::getPositionOnBoard(sf::Vector2i mousePosition) const
 	return {mousePosition.x, mousePosition.y};
 }
 
-void GfxBoard::draw(sf::RenderTarget & target, sf::RenderStates states) const
+float GfxBoard::getCircleRadius() const
 {
-	target.draw(&(_lines[0]), _lines.size(), sf::Lines);
-
 	const auto RADIUS = _size.x/(10.f*2.f*1.2f);
+	return RADIUS;
+}
+
+sf::Vector2f GfxBoard::getDrawPosition(Board::pos_t pos) const
+{
+	const auto RADIUS = getCircleRadius();
 	const auto XOFFSET = _position.x + _size.x/20.f - RADIUS;
 	const auto YOFFSET = _position.y + _size.y/20.f - RADIUS;
 	const auto XMULTIPLIER = _size.x/10.f;
 	const auto YMULTIPLIER = _size.y/10.f;
 
+	return {XOFFSET + pos.x*XMULTIPLIER, YOFFSET + pos.y*YMULTIPLIER};
+}
+
+void GfxBoard::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+	target.draw(&(_lines[0]), _lines.size(), sf::Lines);
+
+	const auto RADIUS = getCircleRadius();
+	sf::CircleShape circle(RADIUS, 100);
 	for (auto j = 0; j < 10; ++j)
 	{
 		for (auto i = 0; i < 10; ++i)
@@ -76,26 +93,24 @@ void GfxBoard::draw(sf::RenderTarget & target, sf::RenderStates states) const
 			if (!_showShips && state == Board::STATE::SHIP)
 				continue;
 
-			sf::CircleShape temp(RADIUS, 100);
-			sf::Vector2f position(XOFFSET + i*XMULTIPLIER, YOFFSET + j*YMULTIPLIER);
-			temp.setPosition(position);
+			circle.setPosition(getDrawPosition({i, j}));
 
 			switch (state)
 			{
 				default: // To kill warning, EMPTY handled above
 					continue;
 				case Board::STATE::SHIP:
-					temp.setFillColor(sf::Color::White);
+					circle.setFillColor(sf::Color::White);
 					break;
 				case Board::STATE::MISS:
-					temp.setFillColor(sf::Color::Blue);
+					circle.setFillColor(sf::Color::Blue);
 					break;
 				case Board::STATE::HIT:
-					temp.setFillColor(sf::Color::Red);
+					circle.setFillColor(sf::Color::Red);
 					break;
 			}
 
-			target.draw(temp);
+			target.draw(circle);
 		}
 	}
 }
