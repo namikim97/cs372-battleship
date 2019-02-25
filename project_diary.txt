@@ -50,3 +50,4 @@ I look forward to working with Nami again.
 2/24/19
 
 - CJ: I added a basic graphical board. It took about 2 hours. I hope this enables Nami to work on the game.
+- CJ (later): I added basic game functionality. It took about an hour. It was very fun to put everything together on the "first" try.
