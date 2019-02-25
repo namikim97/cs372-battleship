@@ -2,7 +2,7 @@
 # Author: Charles Emerson
 #
 # Created: 8 Feb 2019
-# Updated: 22 Feb 2019
+# Updated: 24 Feb 2019
 # 
 # Created from the CMake configuration for SFML at:
 # https://github.com/SFML/SFML/wiki/Tutorial%3A-Build-your-SFML-project-with-CMake
@@ -41,6 +41,7 @@ set(SOURCE_FILES
 	src/textUtils.cpp
 	src/local_textGame.cpp
 	src/network_textGame.cpp
+	src/gfxBoard.cpp
 )
 
 # Define sources and executable

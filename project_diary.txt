@@ -46,3 +46,7 @@ I look forward to working with Nami again.
 3/23/19
 
 - CJ: I spent an hour or so to clean up all of my changes and pushed them to GitHub. There was a lot. I feel bad about excluding Nami because she could have learned about networking. As of now, we have a functioning game. There are two command-line versions: one can be played locally in one console window which Nami and I made together and another which can be played across a local network. With this, we have completed and exceeded 5 out of 7 planned user stories.
+
+2/24/19
+
+- CJ: I added a basic graphical board. It took about 2 hours. I hope this enables Nami to work on the game.
