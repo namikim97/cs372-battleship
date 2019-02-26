@@ -34,12 +34,11 @@ private:
 	const std::string WINDOW_NAME;
 
 private:
-
 	// *** PLAY SOUND EFFECT ***
-	struct SoundEffectEvent {
-		bool playHit = false;
-		bool playMiss = false;
-	} _sound;
+	struct SoundEvent {
+		bool playHitSFX = false;
+		bool playMissSFX = false;
+	} _soundEvent;
 
 	// *** PROCESS INPUT VARIABLES ***
 	struct Mouse {

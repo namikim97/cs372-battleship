@@ -42,19 +42,16 @@ void LocalGame::run()
 		music.play();
 	}
 
-	bool allowSoundEffects = false;
-
-	sf::Sound hit;
-	sf::Sound miss;
+	bool enableSFX = false;
+	sf::Sound hitSFX, missSFX;
 
 	if(hitSoundEffectBuffer.loadFromFile("../assets/hit.wav") 
 		&& missSoundEffectBuffer.loadFromFile("../assets/miss.wav"))
 	{
-		hit.setBuffer(hitSoundEffectBuffer);
-		miss.setBuffer(missSoundEffectBuffer);
-		allowSoundEffects = true;
+		hitSFX.setBuffer(hitSoundEffectBuffer);
+		missSFX.setBuffer(missSoundEffectBuffer);
+		enableSFX = true;
 	}
-
 
 	sf::Time time;
 	while (_window.isOpen())
@@ -62,10 +59,19 @@ void LocalGame::run()
 		processInput();
 		update(time);
 
-		if(_sound.playHit)
+		if (enableSFX)
 		{
-			_sound.playHit = false;
-			hit.play();
+			if(_soundEvent.playHitSFX)
+			{
+				_soundEvent.playHitSFX = false;
+				hitSFX.play();
+			}
+
+			if(_soundEvent.playMissSFX)
+			{
+				_soundEvent.playMissSFX = false;
+				hitSFX.play();
+			}
 		}
 
 		render();
@@ -162,7 +168,15 @@ void LocalGame::update(sf::Time time)
 		case P1_TURN:
 			if (_p2.shoot(rightBoardPosition))
 			{
-				_sound.playHit = true;
+				if (_p2.get(rightBoardPosition) == Board::STATE::HIT)
+				{
+					_soundEvent.playHitSFX = true;
+				}
+				else // if (_p2.get(rightBoardPosition) == Board::STATE::MISS)
+				{
+					_soundEvent.playMissSFX = true;
+				}
+
 				_state = P2_TURN;
 
 				_right.enableShowShips();
@@ -179,7 +193,15 @@ void LocalGame::update(sf::Time time)
 		case P2_TURN:
 			if (_p1.shoot(leftBoardPosition))
 			{
-				_sound.playHit = true;
+				if (_p1.get(leftBoardPosition) == Board::STATE::HIT)
+				{
+					_soundEvent.playHitSFX = true;
+				}
+				else // if (_p1.get(leftBoardPosition) == Board::STATE::MISS)
+				{
+					_soundEvent.playMissSFX = true;
+				}
+
 				_state = P1_TURN;
 
 				_left.enableShowShips();
