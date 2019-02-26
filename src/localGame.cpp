@@ -29,11 +29,45 @@ LocalGame::LocalGame()
 
 void LocalGame::run()
 {
+	sf::SoundBuffer musicBuffer;
+	sf::SoundBuffer hitSoundEffectBuffer;
+	sf::SoundBuffer missSoundEffectBuffer;
+	sf::Sound music;
+
+	if(musicBuffer.loadFromFile("../assets/music.wav"))
+	{
+		music.setBuffer(musicBuffer);
+		music.setLoop(true);
+
+		music.play();
+	}
+
+	bool allowSoundEffects = false;
+
+	sf::Sound hit;
+	sf::Sound miss;
+
+	if(hitSoundEffectBuffer.loadFromFile("../assets/hit.wav") 
+		&& missSoundEffectBuffer.loadFromFile("../assets/miss.wav"))
+	{
+		hit.setBuffer(hitSoundEffectBuffer);
+		miss.setBuffer(missSoundEffectBuffer);
+		allowSoundEffects = true;
+	}
+
+
 	sf::Time time;
 	while (_window.isOpen())
 	{
 		processInput();
 		update(time);
+
+		if(_sound.playHit)
+		{
+			_sound.playHit = false;
+			hit.play();
+		}
+
 		render();
 	}
 
@@ -128,6 +162,7 @@ void LocalGame::update(sf::Time time)
 		case P1_TURN:
 			if (_p2.shoot(rightBoardPosition))
 			{
+				_sound.playHit = true;
 				_state = P2_TURN;
 
 				_right.enableShowShips();
@@ -144,6 +179,7 @@ void LocalGame::update(sf::Time time)
 		case P2_TURN:
 			if (_p1.shoot(leftBoardPosition))
 			{
+				_sound.playHit = true;
 				_state = P1_TURN;
 
 				_left.enableShowShips();

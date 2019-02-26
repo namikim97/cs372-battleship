@@ -10,6 +10,8 @@
 
 #include <SFML/Graphics.hpp>
 // For sf::RenderWindow, sf::Vector2f, sf::Event, etc
+#include <SFML/Audio.hpp>
+// For sf::SoundBuffer
 
 #include <map>
 
@@ -32,6 +34,12 @@ private:
 	const std::string WINDOW_NAME;
 
 private:
+
+	// *** PLAY SOUND EFFECT ***
+	struct SoundEffectEvent {
+		bool playHit = false;
+		bool playMiss = false;
+	} _sound;
 
 	// *** PROCESS INPUT VARIABLES ***
 	struct Mouse {
