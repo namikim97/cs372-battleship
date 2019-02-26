@@ -58,17 +58,22 @@ endif()
 ########################################################################
 # Testing executable (catch_tests.out)
 ########################################################################
-set(TEST_SOURCE_FILES
-	tests/battleship_test_main.cpp
-	tests/battleship_test_suites.cpp
-	src/board.cpp
-)
+if(EXISTS "${CMAKE_SOURCE_DIR}/include/catch.hpp")
+	set(TEST_SOURCE_FILES
+		tests/battleship_test_main.cpp
+		tests/battleship_test_suites.cpp
+		src/board.cpp
+	)
 
-# Define sources and executable
-set(TEST_EXECUTABLE_NAME catch_tests.out)
-add_executable(${TEST_EXECUTABLE_NAME} ${TEST_SOURCE_FILES})
+	# Define sources and executable
+	set(TEST_EXECUTABLE_NAME catch_tests.out)
+	add_executable(${TEST_EXECUTABLE_NAME} ${TEST_SOURCE_FILES})
 
-if(SFML_FOUND)
-	include_directories(${SFML_INCLUDE_DIR})
-	target_link_libraries(${TEST_EXECUTABLE_NAME} ${SFML_LIBRARIES})
+	if(SFML_FOUND)
+		include_directories(${SFML_INCLUDE_DIR})
+		target_link_libraries(${TEST_EXECUTABLE_NAME} ${SFML_LIBRARIES})
+	endif()
+else()
+	message("Unable to create Testing Framework (No catch.hpp)")
 endif()
+
