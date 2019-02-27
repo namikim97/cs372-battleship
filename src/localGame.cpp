@@ -7,14 +7,10 @@
 
 #include "localGame.hpp"
 
-// ********************************************************************
-// HELPER FUNCTIONS
-// ********************************************************************
-
 // *** CONSTRUCTOR AND DESTRUCTOR ***
 LocalGame::LocalGame()
-:	WIDTH{1100/2},
-	HEIGHT{600/2},
+:	INITIAL_WIDTH{1100/2},
+	INITIAL_HEIGHT{600/2},
 	BOARD_SIZE{400.f/2, 400.f/2},
 	LEFT_POSITION{100.f/2, 100.f/2},
 	RIGHT_POSITION{600.f/2, 100.f/2},
@@ -23,7 +19,7 @@ LocalGame::LocalGame()
 	_p2{},
 	_left{_p1, LEFT_POSITION, BOARD_SIZE},
 	_right{_p2, RIGHT_POSITION, BOARD_SIZE},
-	_window{sf::VideoMode{WIDTH, HEIGHT}, WINDOW_NAME},
+	_window{sf::VideoMode{INITIAL_WIDTH, INITIAL_HEIGHT}, WINDOW_NAME},
 	_state(P1_SETUP)
 { }
 
@@ -79,6 +75,15 @@ void LocalGame::run()
 
 }
 
+// Created to resolve window-scaling issues
+sf::Vector2i LocalGame::getRelativeToInitialPosition(sf::Vector2i position) const
+{
+	const auto WINDOW_SIZE = _window.getSize();
+	position.x = (INITIAL_WIDTH * position.x) / WINDOW_SIZE.x;
+	position.y = (INITIAL_HEIGHT * position.y) / WINDOW_SIZE.y;
+	return position;
+}
+
 // *** MODIFIER MEMBER FUNCTIONS ***
 void LocalGame::processInput()
 {
@@ -123,8 +128,9 @@ void LocalGame::update(sf::Time time)
 
 	if (_mouse.leftButtonPressed)
 	{
-		leftBoardPosition = _left.getPositionOnBoard(_mouse.position);
-		rightBoardPosition = _right.getPositionOnBoard(_mouse.position);
+		auto relativePosition = getRelativeToInitialPosition(_mouse.position);
+		leftBoardPosition = _left.getPositionOnBoard(relativePosition);
+		rightBoardPosition = _right.getPositionOnBoard(relativePosition);
 	}
 
 	switch (_state)
@@ -229,8 +235,10 @@ void LocalGame::render()
 	{
 		const GfxBoard & ref = (_state == P1_SETUP)? _left : _right;
 
+		// To resolve scaling issues, get relative to initial board:
 		auto mousePosition = sf::Mouse().getPosition(_window);
-		auto boardPosition = ref.getPositionOnBoard(mousePosition);
+		auto relativeMousePosition = getRelativeToInitialPosition(mousePosition);
+		auto boardPosition = ref.getPositionOnBoard(relativeMousePosition);
 
 		auto length = SHIP_LENGTHS[_setup.shipNumber];
 		Board::pos_t endPosition;
@@ -242,7 +250,7 @@ void LocalGame::render()
 		{
 			endPosition = {boardPosition.x + length - 1, boardPosition.y};
 		}
-		
+
 		if (positionIsValid(boardPosition) && positionIsValid(endPosition))
 		{
 			auto length = SHIP_LENGTHS[_setup.shipNumber];
@@ -251,6 +259,9 @@ void LocalGame::render()
 			auto y = boardPosition.y;
 
 			sf::CircleShape circle{ref.getCircleRadius(), 100};
+			circle.setFillColor(sf::Color::Transparent);
+			circle.setOutlineColor(sf::Color::Red);
+			circle.setOutlineThickness(1.f);
 			switch (_setup.direction)
 			{
 				case Board::DIR::DOWN:

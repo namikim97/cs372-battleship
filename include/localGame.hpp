@@ -29,7 +29,7 @@ private:
 	// *** GAME PARAMETERS ***
 	const std::vector<int> SHIP_LENGTHS{ 2, 3, 3, 4, 5 };
 
-	const unsigned int WIDTH, HEIGHT;
+	const unsigned int INITIAL_WIDTH, INITIAL_HEIGHT;
 	const sf::Vector2f BOARD_SIZE, LEFT_POSITION, RIGHT_POSITION;
 	const std::string WINDOW_NAME;
 
@@ -77,6 +77,10 @@ public:
 public:
 	// *** PUBLIC RUN GAME MEMBER FUNCTION *** 
 	void run();
+
+private:
+	// *** PRIVATE QUERY FUNCTION ***
+	sf::Vector2i getRelativeToInitialPosition(sf::Vector2i position) const;
 
 private:
 	// *** PRIVATE MODIFIER MEMBER FUNCTIONS ***
