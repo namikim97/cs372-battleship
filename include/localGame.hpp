@@ -1,7 +1,7 @@
 // localGame.hpp
 //
 // Created: 24 Feb 2019
-// Updated: 25 Feb 2019
+// Updated: 03 Mar 2019
 //
 // Header for class LocalGame.
 
@@ -64,7 +64,7 @@ private:
 
 public:
 	// *** CONSTRUCTOR AND DESTRUCTOR ***
-	LocalGame();
+	LocalGame(unsigned int height = 600);
 	~LocalGame() = default;
 
 	// *** NO COPY AND MOVE CONSTRUCTION AND ASSIGNMENT ***

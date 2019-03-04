@@ -1,7 +1,7 @@
 // main.cpp
 //
 // Created: 9 Feb 2019
-// Updated: 25 Feb 2019
+// Updated: 03 Mar 2019
 //
 // Main program to choose between local text-based game, networked text-based game or SFML application.
 // Basic SFML app copied from the SFML tutorial (Drawing 2-D Stuff).
@@ -47,8 +47,7 @@ int main(int argc, char const *argv[])
 	}
 	else if (arg == "s" || arg == "sfml")
 	{
-		// local_gfxGame();
-		LocalGame game;
+		LocalGame game{400};
 		game.run();
 		return 0;
 	}

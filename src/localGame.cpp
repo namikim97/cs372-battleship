@@ -1,30 +1,30 @@
 // localGame.cpp
 //
 // Created: 24 Feb 2019
-// Updated: 25 Feb 2019
+// Updated: 03 MAr 2019
 //
 // Source for class LocalGame.
 
 #include "localGame.hpp"
 
-// *** CONSTRUCTOR AND DESTRUCTOR ***
-LocalGame::LocalGame()
-:	INITIAL_WIDTH{1100/2},
-	INITIAL_HEIGHT{600/2},
-	BOARD_SIZE{400.f/2, 400.f/2},
-	LEFT_POSITION{100.f/2, 100.f/2},
-	RIGHT_POSITION{600.f/2, 100.f/2},
+LocalGame::LocalGame(unsigned int height)
+:	INITIAL_WIDTH{11*height/6},
+	INITIAL_HEIGHT{height},
+	BOARD_SIZE{(float) 2.f*height/3.f, (float) 2.f*height/3.f},
+	LEFT_POSITION{(float) height/6.f,(float)  height/6.f},
+	RIGHT_POSITION{(float) height,(float)  height/6.f},
 	WINDOW_NAME{"Battleship"},
 	_p1{},
 	_p2{},
 	_left{_p1, LEFT_POSITION, BOARD_SIZE},
 	_right{_p2, RIGHT_POSITION, BOARD_SIZE},
 	_window{sf::VideoMode{INITIAL_WIDTH, INITIAL_HEIGHT}, WINDOW_NAME},
-	_state(P1_SETUP)
+	_state{P1_SETUP}
 { }
 
 void LocalGame::run()
 {
+	#ifdef BATTLESHIP_SOUND
 	sf::SoundBuffer musicBuffer;
 	sf::SoundBuffer hitSoundEffectBuffer;
 	sf::SoundBuffer missSoundEffectBuffer;
@@ -48,6 +48,7 @@ void LocalGame::run()
 		missSFX.setBuffer(missSoundEffectBuffer);
 		enableSFX = true;
 	}
+	#endif // #ifdef BATTLESHIP_SOUND
 
 	sf::Time time;
 	while (_window.isOpen())
@@ -55,6 +56,7 @@ void LocalGame::run()
 		processInput();
 		update(time);
 
+		#ifdef BATTLESHIP_SOUND
 		if (enableSFX)
 		{
 			if(_soundEvent.playHitSFX)
@@ -69,10 +71,10 @@ void LocalGame::run()
 				hitSFX.play();
 			}
 		}
+		#endif // #ifdef BATTLESHIP_SOUND
 
 		render();
 	}
-
 }
 
 // Created to resolve window-scaling issues

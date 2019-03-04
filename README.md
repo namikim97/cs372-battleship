@@ -15,6 +15,13 @@ This project uses [SFML](https://www.sfml-dev.org/) and [Catch2](https://github.
 4. `make`
 5. Run the `./battleship.out` game with an argument of `sfml`, `local`, or `network`
 
+The game is capable of playing music and sound effects. To enable sound:
+1. Uncomment the line `add_definitions( -DBATTLESHIP_SOUND )` located in `CMakeLists.txt`
+2. Add a folder `assets` in the project folder
+3. Add a `music.wav` in the `assets` folder for looping background music
+4. Add a `hit.wav` in the `assets` folder for a sound effect on hit
+5. Add a `miss.wav` in the `assets` folder for a sound effect on miss
+
 ### Specific Game Types:
 1. Local Text-Based Game (No networking), run `./battleship.out l` or `./battleship.out local-text`
 2. Networked Text-Based Game (Networking), run `./battleship.out n` or `./battleship.out network-text`
